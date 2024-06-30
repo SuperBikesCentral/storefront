@@ -9,6 +9,7 @@ import Hero from "./Hero";
 import CardTwoColumnCta from "./CardTwoColumnCta";
 import FilterSection from "./FilterSection";
 import Modal from "./Modal";
+import Breadcrumb from "./Breadcrumb";
 
 export {
   Hero,
@@ -21,5 +22,6 @@ export {
   CardTwoColumnCta,
   FilterSection,
   MotorcycleCard,
-  Modal
+  Modal,
+  Breadcrumb
 };

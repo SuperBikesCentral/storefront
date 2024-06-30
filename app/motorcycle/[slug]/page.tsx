@@ -1,5 +1,5 @@
 "use client"
-import { CustomButton, Modal } from '@components'; // Adjust path as per your project structure
+import { Breadcrumb, CustomButton, Modal } from '@components'; // Adjust path as per your project structure
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
@@ -22,6 +22,11 @@ const ProductPage = () => {
     message: ''
   });
 
+  const breadcrumbs = [
+    { name: 'Home', href: '/' },
+    { name: 'Motorcycles', href: '/motorcycles' },
+    { name: motorcycle?.name, href: `/motorcycles/${slug}` }
+  ];
   useEffect(() => {
     const fetchData = async () => {
       if (!slug) return;
@@ -96,34 +101,10 @@ const ProductPage = () => {
   return (
     <div className="bg-white">
       <div className="pt-6 mb-6">
-        {/* Breadcrumb or Navigation */}
-        {/* Example: */}
-        <nav aria-label="Breadcrumb">
-          <ol className="mx-auto flex max-w-2xl items-center space-x-2 px-4 sm:px-6 lg:max-w-7xl lg:px-8">
-            <li>
-              <div className="flex items-center">
-                <a href="#" className="mr-2 text-sm font-medium text-gray-900">Home</a>
-                <svg width="16" height="20" viewBox="0 0 16 20" fill="currentColor" aria-hidden="true" className="h-5 w-4 text-gray-300">
-                  <path d="M5.697 4.34L8.98 16.532h1.327L7.025 4.341H5.697z" />
-                </svg>
-              </div>
-            </li>
-            <li>
-              <div className="flex items-center">
-                <a href="#" className="mr-2 text-sm font-medium text-gray-900">Motorcycles</a>
-                <svg width="16" height="20" viewBox="0 0 16 20" fill="currentColor" aria-hidden="true" className="h-5 w-4 text-gray-300">
-                  <path d="M5.697 4.34L8.98 16.532h1.327L7.025 4.341H5.697z" />
-                </svg>
-              </div>
-            </li>
-            <li className="text-sm">
-              <a href="#" aria-current="page" className="font-medium text-gray-500 hover:text-gray-600">{motorcycle.name}</a>
-            </li>
-          </ol>
-        </nav>
+        <Breadcrumb items={breadcrumbs} />
       </div>
 
-      <div className="mx-auto max-w-2xl sm:px-6 lg:max-w-7xl lg:grid lg:grid-cols-3 lg:gap-x-8 lg:px-8">
+      <div className="mx-auto max-w-2xl sm:px-6 lg:max-w-screen-2xl lg:grid lg:grid-cols-3 lg:gap-x-8 lg:px-8">
         {/* Left section with product image */}
         <div className="lg:col-span-2">
           <div className="aspect-w-16 aspect-h-10 overflow-hidden rounded-lg">

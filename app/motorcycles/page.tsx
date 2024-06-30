@@ -2,7 +2,7 @@
 import Head from "next/head";
 import { useEffect, useState } from "react";
 import { fetchMotorcycles } from "@utils";
-import { MotorcycleCard, FilterSection } from "@components";
+import { MotorcycleCard, FilterSection, Breadcrumb } from "@components";
 import { Motorcycle } from "@types";
 import Layout from "../layout"; // Assuming your layout component is located in the parent directory
 
@@ -68,15 +68,22 @@ export default function ShopPage() {
   const toggleDropdown = () => {
     setIsDropdownOpen((prev) => !prev);
   };
-
+  const breadcrumbs = [
+    { name: 'Home', href: '/' },
+    { name: 'Motorcycles', href: '/motorcycles' },
+  ];
   return (
     <div>
       <Head>
-        <title>Shop Page</title>
+        <title>Motorcycles</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className="max-w-screen-2xl mx-auto">
+        <div className="pt-6 mb-6">
+          <Breadcrumb items={breadcrumbs} />
+        </div>
         <div className="flex items-baseline justify-between border-b border-gray-200 pb-6 pt-12">
+          
           <h1 className="text-4xl font-bold tracking-tight text-gray-900">
             Motorcycles
           </h1>
@@ -219,7 +226,7 @@ export default function ShopPage() {
           <div className="w-3/4 px-4 py-8">
             {" "}
             {/* Right side for products */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6 mt-6">
               {isLoading ? (
                 <p>Loading...</p>
               ) : isDataEmpty ? (

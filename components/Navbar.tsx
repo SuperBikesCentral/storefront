@@ -1,9 +1,11 @@
 "use client";
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import CustomButton from "./CustomButton";
 import SearchBar from './Searchbar';
 
 const Navbar = () => {
+  const router = useRouter(); // Move useRouter() inside the component
   const [navbarSolid, setNavbarSolid] = useState(false);
 
   const changeBackground = () => {
@@ -21,13 +23,21 @@ const Navbar = () => {
     };
   }, []);
 
+   const redirectHome = () => {
+    router.push(`/`); // Navigate to product info page with motorcycle ID
+  };
+
+  const redirectShop = () => {
+    router.push(`/motorcycles`); //
+  };
+
   return (
     <nav className={` w-full z-30 top-0 ${navbarSolid ? 'bg-blue-950 bg-opacity-99' : 'bg-blue-900 '} transition duration-300`}>
       <>
         {/* Top Navbar with Search */}
         <div className="w-full container mx-auto flex flex-wrap items-center justify-between py-2 border-x-amber-50 ">
           <div className="pl-4 flex items-center">
-            <a className="text-white no-underline hover:no-underline font-bold text-2xl lg:text-3xl flex items-center" href="#">
+            <a onClick={redirectHome} className="text-white no-underline hover:no-underline font-bold text-2xl lg:text-3xl flex items-center" href="#">
               <img className="w-16 h-16 mr-6" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDkgAY4mKZt6epgecA2464tA34o5Acxztddw&s" alt="Logo" />
               Superbikes
             </a>
@@ -47,17 +57,15 @@ const Navbar = () => {
         </div>
 
         {/* Second Navbar with Navigation Links */}
-        <div className="w-full container mx-auto flex flex-wrap items-center justify-between py-2 ">
+        <div className="w-full container mx-auto flex flex-wrap items-center justify-center py-2 ">
           <div className="w-full flex-grow lg:flex lg:items-center lg:w-auto hidden lg:block mt-2 lg:mt-0 bg-transparent text-black p-4 lg:p-0 z-20" id="nav-content">
-            <ul className="list-reset lg:flex justify-evenly flex-1 items-center">
+            <ul className="list-reset lg:flex justify-center flex-1 items-center">
+             
               <li className="mr-3">
-                  <a className="inline-block py-2 px-4 text-white no-underline hover:text-gray-300 hover:text-underline font-bold" href="#">Categories</a>
-              </li> 
-              <li className="mr-3">
-                <a className="inline-block py-2 px-4 text-white no-underline hover:text-gray-300 hover:text-underline font-bold" href="#">Home</a>
+                <a onClick={redirectHome} className="inline-block py-2 px-4 text-white no-underline hover:text-gray-300 hover:text-underline font-bold" href="#">Home</a>
               </li>
               <li className="mr-3">
-                <a className="inline-block py-2 px-4 text-white no-underline hover:text-gray-300 hover:text-underline font-bold" href="#">Shop</a>
+                <a onClick={redirectShop} className="inline-block py-2 px-4 text-white no-underline hover:text-gray-300 hover:text-underline font-bold" href="#">Motorcycles</a>
               </li>
               <li className="mr-3">
                 <a className="inline-block py-2 px-4 text-white no-underline hover:text-gray-300 hover:text-underline font-bold" href="#">About</a>
@@ -68,15 +76,11 @@ const Navbar = () => {
               <li className="mr-3">
                 <a className="inline-block py-2 px-4 text-white no-underline hover:text-gray-300 hover:text-underline font-bold" href="#">Shop</a>
               </li>
+            
               <li className="mr-3">
                 <a className="inline-block py-2 px-4 text-white no-underline hover:text-gray-300 hover:text-underline font-bold" href="#">Contact</a>
               </li>
-              <li className="mr-3">
-                <a className="inline-block py-2 px-4 text-white no-underline hover:text-gray-300 hover:text-underline font-bold" href="#">Contact</a>
-              </li>
-              <li className="mr-3">
-                <a className="inline-block py-2 px-4 text-white no-underline hover:text-gray-300 hover:text-underline font-bold" href="#">Shop</a>
-              </li>
+           
             </ul>
           </div>
         </div>

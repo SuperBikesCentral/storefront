@@ -29,7 +29,7 @@ export default function ShopPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [filters, setFilters] = useState({
     manufacturer: "",
-    year: "",
+    year: 0, // Initialize year as a number
     model: "",
     limit: 6,
     fuel: "",
@@ -58,6 +58,10 @@ export default function ShopPage() {
 
   // Handle filter changes
   const handleFilterChange = (filterName: string, value: string | number) => {
+    // Convert year to number if needed
+    if (filterName === 'year') {
+      value = parseInt(value as string, 10);
+    }
     setFilters((prevFilters) => ({
       ...prevFilters,
       [filterName]: value,

@@ -1,8 +1,8 @@
 "use client"
-
 import React, { useState } from 'react';
+import { FilterSectionProps } from "@types";
 
-const FilterSection = ({ title, options }) => {
+const FilterSection: React.FC<FilterSectionProps> = ({ title, options }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleSection = () => {

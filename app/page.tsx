@@ -14,7 +14,7 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
   const [filters, setFilters] = useState({
     manufacturer: '',
-    year: '',
+    year: 0,
     model: '',
     limit: 6,
     fuel: '',
@@ -39,12 +39,15 @@ export default function Home() {
   const isDataEmpty = !Array.isArray(motorcycles) || motorcycles.length === 0;
 
   const handleFilterChange = (filterName: string, value: string | number) => {
-    setFilters(prevFilters => ({
+    // Convert year to number if needed
+    if (filterName === 'year') {
+      value = parseInt(value as string, 10); // Parse value as integer
+    }
+    setFilters((prevFilters) => ({
       ...prevFilters,
       [filterName]: value,
     }));
   };
-
   const content1 = {
     title: 'Title 1',
     description: 'Description 1',

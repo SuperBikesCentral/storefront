@@ -87,3 +87,8 @@ export interface SearchManuFacturerProps {
   manufacturer: string;
   setManuFacturer: (manufacturer: string) => void;
 }
+
+export interface FilterSectionProps {
+  title: string;
+  options: { value: string; label: string }[];
+}

@@ -15,7 +15,6 @@ const MotorcycleCard = ({ motorcycle }: MotorcycleCardProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
-    console.log("Router pathname:", router.pathname);
   }, [router]);
 
   const formattedPrice = new Intl.NumberFormat("en-US").format(motorcycle.price);

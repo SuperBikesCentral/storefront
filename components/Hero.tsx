@@ -4,6 +4,7 @@ import { Carousel } from 'react-responsive-carousel';
 import { useState } from 'react';
 import { CustomButton } from "@components";
 import HeroSlide from "./HeroSlide";
+import * as React from 'react';
 
 const Hero = () => {
   const [filters, setFilters] = useState({
@@ -12,7 +13,7 @@ const Hero = () => {
     brand: 'All Brands',
   });
 
-  const handleFilterChange = (e) => {
+  const handleFilterChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFilters({
       ...filters,
@@ -21,8 +22,9 @@ const Hero = () => {
   };
 
   const handleFilterSubmit = () => {
-    // Handle filter submission
+    // Placeholder for handling filter submission
     console.log(filters);
+    // Add logic to apply filters and update product list
   };
 
   return (
@@ -80,7 +82,6 @@ const Hero = () => {
               <option>$200+</option>
             </select>
           </div>
-          
           <div>
             <label htmlFor="brand" className="block text-sm font-medium">
               Brand
@@ -98,20 +99,13 @@ const Hero = () => {
               <option>Brand C</option>
             </select>
           </div>
-
-            <CustomButton
-              title='Apply Filters'
-              containerStyles='w-full py-[16px] rounded-full bg-red-600'
-              textStyles='text-white text-[14px] leading-[17px] font-bold'
-              rightIcon='/right-arrow.svg'
-              // handleClick={() => setIsOpen(true)}
-            />
-          {/* <button
-            onClick={handleFilterSubmit}
-            className="mt-6 bg-white text-blue-800 py-2 px-4 rounded-md font-semibold hover:bg-gray-200"
-          >
-            Apply Filters
-          </button> */}
+          <CustomButton
+            title='Apply Filters'
+            containerStyles='w-full py-[16px] rounded-full bg-red-600'
+            textStyles='text-white text-[14px] leading-[17px] font-bold'
+            rightIcon='/right-arrow.svg'
+            handleClick={handleFilterSubmit} // Assuming you want to submit filters on button click
+          />
         </div>
       </div>
     </div>

@@ -11,7 +11,7 @@ const ThreeColumnSection = () => {
     brand: 'All Brands',
   });
 
-  const handleFilterChange = (e) => {
+  const handleFilterChange = (e: React.ChangeEvent<HTMLSelectElement> | React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFilters({
       ...filters,

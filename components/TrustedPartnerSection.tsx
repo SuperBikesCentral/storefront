@@ -10,19 +10,6 @@ const TrustedPartnerSection = () => {
     brand: 'All Brands',
   });
 
-  const handleFilterChange = (e) => {
-    const { name, value } = e.target;
-    setFilters({
-      ...filters,
-      [name]: value,
-    });
-  };
-
-  const handleFilterSubmit = () => {
-    // Handle filter submission
-    console.log(filters);
-  };
-
   return (
     <div className="bg-white py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">

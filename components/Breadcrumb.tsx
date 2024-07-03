@@ -1,9 +1,16 @@
 import React from 'react';
 
-const Breadcrumb = ({ items }) => {
+interface BreadcrumbProps {
+  items: {
+    name: string;
+    href: string;
+  }[];
+}
+
+const Breadcrumb: React.FC<BreadcrumbProps> = ({ items }) => {
   return (
     <nav aria-label="Breadcrumb">
-      <ol className="mx-auto flex  items-center space-x-2 px-4 sm:px-6 lg:max-w-screen-2xl lg:px-8">
+      <ol className="mx-auto flex items-center space-x-2 px-4 sm:px-6 lg:max-w-screen-2xl lg:px-8">
         {items.map((item, index) => (
           <li key={index}>
             <div className="flex items-center">

@@ -1,12 +1,13 @@
 "use client"
 import { Breadcrumb, CustomButton, Modal } from '@components'; // Adjust path as per your project structure
 import { useParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, ChangeEvent, FormEvent, MouseEventHandler} from 'react';
+import { Motorcycle } from "@types";
 
 const ProductPage = () => {
   const { slug } = useParams();
-  const [motorcycle, setMotorcycle] = useState(null);
-  const [selectedVariation, setSelectedVariation] = useState(null);
+  const [motorcycle, setMotorcycle] = useState<Motorcycle | null>(null); 
+  const [selectedVariation, setSelectedVariation] = useState<Motorcycle['variations'][0] | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [showModal, setShowModal] = useState(false); // State for showing/hiding modal
 
@@ -27,6 +28,12 @@ const ProductPage = () => {
     { name: 'Motorcycles', href: '/motorcycles' },
     { name: motorcycle?.name, href: `/motorcycles/${slug}` }
   ];
+
+  const validBreadcrumbs = breadcrumbs.map(item => ({
+    name: item.name || 'Unknown', // Default to 'Unknown' if name is undefined
+    href: item.href,
+  }));
+
   useEffect(() => {
     const fetchData = async () => {
       if (!slug) return;
@@ -49,7 +56,7 @@ const ProductPage = () => {
     fetchData();
   }, [slug]);
 
-  const handleVariationSelect = (variation) => {
+  const handleVariationSelect = (variation: Motorcycle['variations'][0]) => {
     setSelectedVariation(variation);
   };
 
@@ -61,12 +68,12 @@ const ProductPage = () => {
     setShowModal(false);
   };
 
-  const handleChange = (e) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
       const response = await fetch('https://superbikescentral.online/api/inquiries', {
@@ -101,7 +108,7 @@ const ProductPage = () => {
   return (
     <div className="bg-white">
       <div className="pt-6 mb-6">
-        <Breadcrumb items={breadcrumbs} />
+        <Breadcrumb items={validBreadcrumbs} />
       </div>
 
       <div className="mx-auto max-w-2xl sm:px-6 lg:max-w-screen-2xl lg:grid lg:grid-cols-3 lg:gap-x-8 lg:px-8">
@@ -233,7 +240,7 @@ const ProductPage = () => {
             title="Submit"
             containerStyles="w-full py-[16px] rounded-full bg-blue-900"
             textStyles="text-white text-[14px] leading-[17px] font-bold"
-            handleClick={handleSubmit}
+            btnType={"submit"}
           />
         </form>
       </Modal>

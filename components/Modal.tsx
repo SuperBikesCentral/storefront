@@ -1,9 +1,14 @@
 "use client"
-
-import { Fragment } from 'react';
+import { Fragment, ReactNode } from 'react';
 import { Transition } from '@headlessui/react';
 
-const Modal = ({ isOpen, closeModal, children }) => {
+type ModalProps = {
+  isOpen: boolean;
+  closeModal: () => void;
+  children: ReactNode;
+};
+
+const Modal = ({ isOpen, closeModal, children }: ModalProps) => {
   return (
     <Transition
       show={isOpen}
@@ -22,7 +27,7 @@ const Modal = ({ isOpen, closeModal, children }) => {
 
         <div className="bg-white rounded-lg overflow-hidden shadow-xl transform transition-all max-w-2xl w-full mx-4 sm:mx-auto">
           {/* Modal header */}
-          <div className="px-6 py-4 ">
+          <div className="px-6 py-4">
             <div className="flex justify-between items-center">
               <button onClick={closeModal} className="text-blue-900 hover:text-blue-300">
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">

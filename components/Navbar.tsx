@@ -23,12 +23,8 @@ const Navbar = () => {
     };
   }, []);
 
-   const redirectHome = () => {
-    router.push(`/`); // Navigate to product info page with motorcycle ID
-  };
-
-  const redirectShop = () => {
-    router.push(`/motorcycles`); //
+  const redirectPage = (link: string) => {
+    router.push(`${link}`); // Navigate to product info page with motorcycle ID
   };
 
   return (
@@ -37,13 +33,13 @@ const Navbar = () => {
         {/* Top Navbar with Search */}
         <div className="w-full container mx-auto flex flex-wrap items-center justify-between py-2 border-x-amber-50 ">
           <div className="pl-4 flex items-center">
-            <a onClick={redirectHome} className="text-white no-underline hover:no-underline font-bold text-2xl lg:text-3xl flex items-center" href="#">
+            <a onClick={()=>redirectPage('/')} className="text-white no-underline hover:no-underline font-bold text-2xl lg:text-3xl flex items-center" href="#">
               <img className="w-16 h-16 mr-6" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDkgAY4mKZt6epgecA2464tA34o5Acxztddw&s" alt="Logo" />
               Superbikes
             </a>
           </div>
 
-            <SearchBar />
+          <SearchBar />
           <div className="block lg:hidden pr-4">
             <button id="nav-toggle" className="flex items-center p-1 text-white hover:text-gray-300 focus:outline-none focus:shadow-outline">
               <svg className="fill-current h-6 w-6" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -62,23 +58,20 @@ const Navbar = () => {
             <ul className="list-reset lg:flex justify-center flex-1 items-center">
              
               <li className="mr-3">
-                <a onClick={redirectHome} className="inline-block py-2 px-4 text-white no-underline hover:text-gray-300 hover:text-underline font-bold" href="#">Home</a>
+                <a onClick={()=>redirectPage('/')}  className="inline-block py-2 px-4 text-white no-underline hover:text-gray-300 hover:text-underline font-bold" href="#">Home</a>
               </li>
               <li className="mr-3">
-                <a onClick={redirectShop} className="inline-block py-2 px-4 text-white no-underline hover:text-gray-300 hover:text-underline font-bold" href="#">Motorcycles</a>
+                <a onClick={()=>redirectPage('/motorcycles')}  className="inline-block py-2 px-4 text-white no-underline hover:text-gray-300 hover:text-underline font-bold" href="#">Motorcycles</a>
               </li>
               <li className="mr-3">
-                <a className="inline-block py-2 px-4 text-white no-underline hover:text-gray-300 hover:text-underline font-bold" href="#">About</a>
+                <a onClick={()=>redirectPage('/about')}  className="inline-block py-2 px-4 text-white no-underline hover:text-gray-300 hover:text-underline font-bold" href="#">About</a>
               </li>
               <li className="mr-3">
                 <a className="inline-block py-2 px-4 text-white no-underline hover:text-gray-300 hover:text-underline font-bold" href="#">Contact</a>
               </li>
+          
               <li className="mr-3">
-                <a className="inline-block py-2 px-4 text-white no-underline hover:text-gray-300 hover:text-underline font-bold" href="#">Shop</a>
-              </li>
-            
-              <li className="mr-3">
-                <a className="inline-block py-2 px-4 text-white no-underline hover:text-gray-300 hover:text-underline font-bold" href="#">Contact</a>
+                <a className="inline-block py-2 px-4 text-white no-underline hover:text-gray-300 hover:text-underline font-bold" href="#">FAQ</a>
               </li>
            
             </ul>

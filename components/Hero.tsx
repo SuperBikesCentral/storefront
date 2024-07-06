@@ -43,7 +43,7 @@ const Hero = () => {
           <HeroSlide/>
         </Carousel>
       </div>
-      <div className="lg:col-span-1 flex flex-col justify-center bg-blue-900 p-8 rounded-lg text-white">
+      <div className="lg:col-span-1 flex flex-col justify-center bg-blue-900 p-8 rounded-3xl text-white">
         <h2 className="text-2xl font-bold mb-4">Filter Products</h2>
         <div className="space-y-4">
           <div>

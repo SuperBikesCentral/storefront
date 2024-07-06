@@ -13,7 +13,7 @@ const ProductPage = () => {
 
   // Form state
   const [formData, setFormData] = useState({
-    product_id: null, // Update this with actual product ID if needed
+    product_id:  0,
     name: '',
     email: '',
     contact_number: '',
@@ -42,6 +42,8 @@ const ProductPage = () => {
         const response = await fetch(`https://superbikescentral.online/api/product/${slug}`);
         const data = await response.json();
         setMotorcycle(data);
+        // Update formData.product_id on successful data fetch
+        setFormData({ ...formData, product_id: data.id });
         // Select the first variation by default
         if (data.variations.length > 0) {
           setSelectedVariation(data.variations[0]);
@@ -56,6 +58,7 @@ const ProductPage = () => {
     fetchData();
   }, [slug]);
 
+
   const handleVariationSelect = (variation: Motorcycle['variations'][0]) => {
     setSelectedVariation(variation);
   };
@@ -68,20 +71,31 @@ const ProductPage = () => {
     setShowModal(false);
   };
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const   handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
   };
-
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    console.log(formData)
+
+    let form = {
+      product_id: formData.product_id,
+      name: formData.name,
+      email: formData.email,
+      contact_number: formData.contact_number,
+      province: formData.province,
+      city: formData.city,
+      barangay: formData.barangay,
+      message: formData.message,
+  }
     try {
       const response = await fetch('https://superbikescentral.online/api/inquiries', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(formData)
+        body: JSON.stringify(form)
       });
       if (response.ok) {
         // Handle success
@@ -173,17 +187,17 @@ const ProductPage = () => {
         {/* Modal content */}
         <form onSubmit={handleSubmit} className="mx-auto max-w-2xl px-4 sm:px-6 lg:max-w-7xl lg:px-8 py-8">
           <h2 className="text-lg font-medium text-gray-900 mb-4">Inquiry</h2>
-          <p className="text-sm text-gray-700 mb-4">Please fill out the form below to inquire about {motorcycle.name}.</p>
+          <p className="text-sm text-gray-700 mb-4">Please fill out the form below to inquire about <strong>{motorcycle.name + ' - ' +selectedVariation?.color + ' ' +selectedVariation?.engine_cc+'cc'}</strong>.</p>
           {/* Form fields */}
           <input
             type="text"
             name="name"
-            value={formData.name}
+            value={formData.name} 
             onChange={handleChange}
             placeholder="Your Name"
             className="border border-gray-300 rounded-md px-3 py-2 mb-3 w-full"
             required
-          />
+          /> 
           <input
             type="email"
             name="email"

@@ -31,28 +31,29 @@ export default function ShopPage() {
     manufacturer: "",
     year: 0, // Initialize year as a number
     model: "",
-    limit: 6,
+    per_page: 6,
     fuel: "",
   });
   const [isDropdownOpen, setIsDropdownOpen] = useState(false); // State to manage dropdown visibility
 
-  // Fetch motorcycles data based on filters
+
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
       try {
         const result = await fetchMotorcycles(filters);
-        setMotorcycles(result);
-        setIsLoading(false);
+
+        console.log(result)
+        setMotorcycles(result.data);
       } catch (error) {
         console.error("Error fetching motorcycles:", error);
+      } finally {
         setIsLoading(false);
       }
     };
-
+  
     fetchData();
-  }, [filters]); // Run effect whenever filters change
-
+  }, [filters]);
   // Determine if data is empty
   const isDataEmpty = !Array.isArray(motorcycles) || motorcycles.length === 0;
 

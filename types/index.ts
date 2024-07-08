@@ -92,3 +92,52 @@ export interface FilterSectionProps {
   title: string;
   options: { value: string; label: string }[];
 }
+
+
+// Define an interface for FilterProps
+export interface FilterProps {
+  manufacturer?: string;
+  year?: number;
+  model?: string;
+  limit?: number;
+  fuel?: string;
+  name?: string;
+  brand?: number;
+  category?: number;
+  minPrice?: string;
+  maxPrice?: string;
+  per_page?: number;
+}
+
+// Define an interface for the expected response structure (optional)
+export interface MotorcycleResponse {
+  data: Motorcycle[];
+  links: {
+    first: string;
+    last: string;
+    prev: string | null;
+    next: string | null;
+  };
+  meta: {
+    current_page: number;
+    from: number;
+    last_page: number;
+    links: {
+      url: string | null;
+      label: string;
+      active: boolean;
+    }[];
+    path: string;
+    per_page: number;
+    to: number;
+    total: number;
+  };
+}
+
+export interface Province {
+  id: number;
+  code: string;
+  name: string;
+  region_id: string;
+  province_id: string;
+}

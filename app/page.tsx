@@ -16,7 +16,7 @@ export default function Home() {
     manufacturer: '',
     year: 0,
     model: '',
-    limit: 6,
+    per_page: 6,
     fuel: '',
   });
 
@@ -25,17 +25,18 @@ export default function Home() {
       setIsLoading(true);
       try {
         const result = await fetchMotorcycles(filters);
-        setMotorcycles(result);
-        setIsLoading(false);
+
+        console.log(result)
+        setMotorcycles(result.data);
       } catch (error) {
-        console.error('Error fetching motorcycles:', error);
+        console.error("Error fetching motorcycles:", error);
+      } finally {
         setIsLoading(false);
       }
     };
-
+  
     fetchData();
-  }, [filters]); // Run effect whenever filters change
-
+  }, [filters]);
   const isDataEmpty = !Array.isArray(motorcycles) || motorcycles.length === 0;
 
   const handleFilterChange = (filterName: string, value: string | number) => {

@@ -1,4 +1,4 @@
-import { CarProps, FilterProps } from "@types";
+import { CarProps, FilterProps, MotorcycleResponse } from "@types";
 
 export const calculateCarRent = (city_mpg: number, year: number) => {
   const basePricePerDay = 50; // Base rental price per day in dollars
@@ -80,22 +80,36 @@ export const generateCarImageUrl = (car: CarProps, angle?: string) => {
 } 
 
 export async function fetchMotorcycles(filters: FilterProps) {
-  const { manufacturer, year, model, limit, fuel } = filters;
+  const { manufacturer, year, model, fuel, name, brand, category, minPrice, maxPrice, per_page } = filters;
 
   // Construct the URL with query parameters
   const url = new URL("https://superbikescentral.online/api/products");
 
+  // Add common filter parameters with type safety
   if (manufacturer) url.searchParams.append("manufacturer", manufacturer);
   if (year) url.searchParams.append("year", String(year));
   if (model) url.searchParams.append("model", model);
-  if (limit) url.searchParams.append("limit", String(limit));
+
+  // Include per_page if it exists in filters, otherwise use default (optional)
+  url.searchParams.append("per_page", String(filters.per_page || 12)); // Default to 10 if not provided
+
   if (fuel) url.searchParams.append("fuel", fuel);
+
+  // Add additional API parameters with type safety
+  if (name) url.searchParams.append("name", name);
+  if (brand) url.searchParams.append("brand", String(brand));
+  if (category) url.searchParams.append("category", String(category));
+  if (minPrice) url.searchParams.append("min_price", minPrice);
+  if (maxPrice) url.searchParams.append("max_price", maxPrice);
+
+  // Log the constructed URL for debugging purposes (optional)
+  console.log(url.toString());
 
   // Perform the API request
   const response = await fetch(url.toString());
 
-  // Parse the response as JSON
-  const result = await response.json();
+  // Parse the response as JSON (assuming the response is JSON)
+  const result: MotorcycleResponse = await response.json();
 
   return result;
 }

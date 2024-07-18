@@ -1,9 +1,9 @@
 "use client";
 import Head from "next/head";
 import { useEffect, useState } from "react";
-import { fetchMotorcycles } from "@utils";
+import { fetchMotorcycles, fetchCategories, fetchBrands } from "@utils";
 import { MotorcycleCard, FilterSection, Breadcrumb } from "@components";
-import { Motorcycle } from "@types";
+import { Motorcycle, CategoriesResponse, Category, Brand } from "@types";
 import Layout from "../layout"; // Assuming your layout component is located in the parent directory
 
 const colorOptions = [
@@ -27,15 +27,16 @@ const sizeOptions = [
 export default function ShopPage() {
   const [motorcycles, setMotorcycles] = useState<Motorcycle[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(null);
   const [filters, setFilters] = useState({
-    manufacturer: "",
+    brand: 0,
     year: 0, // Initialize year as a number
     model: "",
-    per_page: 6,
+    per_page: 100,
     fuel: "",
+    category: 0,
   });
   const [isDropdownOpen, setIsDropdownOpen] = useState(false); // State to manage dropdown visibility
-
 
   useEffect(() => {
     const fetchData = async () => {
@@ -54,7 +55,47 @@ export default function ShopPage() {
   
     fetchData();
   }, [filters]);
-  // Determine if data is empty
+
+  const [categories, setCategories] = useState<Category[]>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const result: Category[] = await fetchCategories();
+
+        if (!result || result.length === 0) {
+          throw new Error('Categories array is null or empty');
+        }
+
+        setCategories(result);
+      } catch (error) {
+        console.error('Error fetching categories:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const [brands, setBrands] = useState<Brand[]>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const result: Brand[] = await fetchBrands();
+
+        if (!result || result.length === 0) {
+          throw new Error('Brands array is null or empty');
+        }
+
+        setBrands(result);
+      } catch (error) {
+        console.error('Error fetching brands:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   const isDataEmpty = !Array.isArray(motorcycles) || motorcycles.length === 0;
 
   // Handle filter changes
@@ -77,6 +118,24 @@ export default function ShopPage() {
     { name: 'Home', href: '/' },
     { name: 'Motorcycles', href: '/motorcycles' },
   ];
+
+  const handleCategoryChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const categoryId = parseInt(event.target.value, 10);
+    setSelectedCategoryId(categoryId);
+    setFilters(prevFilters => ({
+      ...prevFilters,
+      category: categoryId,
+    }));
+  };
+
+  const handleBrandChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const brandId = parseInt(event.target.value, 10);
+    setSelectedCategoryId(brandId);
+    setFilters(prevFilters => ({
+      ...prevFilters,
+      brand: brandId,
+    }));
+  };
   return (
     <div>
       <Head>
@@ -223,9 +282,36 @@ export default function ShopPage() {
             {" "}
             {/* Left sidebar for filters */}
             <h2 className="text-lg font-semibold mb-4">Filters</h2>
-            <FilterSection title="Color" options={colorOptions} />
+            {/* <FilterSection title="Color" options={colorOptions} />
             <FilterSection title="Category" options={categoryOptions} />
-            <FilterSection title="Size" options={sizeOptions} />
+            <FilterSection title="Size" options={sizeOptions} /> */}
+            <div className="p-4 w-full">
+              <label className="block mb-2">Select a category:</label>
+              <select
+                className="border border-gray-300 rounded-md px-3 py-1 focus:outline-none focus:border-blue-500 w-full"
+                onChange={handleCategoryChange}
+              >
+                {categories?.map(category => (
+                  <option key={category.id} value={category.id}>
+                    {category.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div className="p-4 w-full">
+              <label className="block mb-2">Select a manufacturer:</label>
+              <select
+                className="border border-gray-300 rounded-md px-3 py-1 focus:outline-none focus:border-blue-500 w-full"
+                onChange={handleBrandChange}
+              >
+                {brands?.map(brand => (
+                  <option key={brand.id} value={brand.id}>
+                    {brand.name}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
 
           <div className="w-3/4 px-4 py-8">

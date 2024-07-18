@@ -1,4 +1,4 @@
-import { CarProps, FilterProps, MotorcycleResponse } from "@types";
+import { Brand, CarProps, CategoriesResponse, Category, FilterProps, MotorcycleResponse } from "@types";
 
 export const calculateCarRent = (city_mpg: number, year: number) => {
   const basePricePerDay = 50; // Base rental price per day in dollars
@@ -112,4 +112,39 @@ export async function fetchMotorcycles(filters: FilterProps) {
   const result: MotorcycleResponse = await response.json();
 
   return result;
+}
+
+
+export async function fetchCategories(): Promise<Category[]> {
+  try {
+    const response = await fetch("https://superbikescentral.online/api/categories");
+    
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const result: Category[] = await response.json();
+    return result;
+  } catch (error) {
+    console.error("Error fetching categories:", error);
+    throw error;
+  }
+}
+
+
+
+export async function fetchBrands(): Promise<Brand[]> {
+  try {
+    const response = await fetch("https://superbikescentral.online/api/brands");
+    
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const result: Brand[] = await response.json();
+    return result;
+  } catch (error) {
+    console.error("Error fetching brands:", error);
+    throw error;
+  }
 }

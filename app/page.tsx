@@ -8,10 +8,12 @@ import { Motorcycle } from '@types';
 import ThreeColumnSection from '@components/ThreeColumnSection';
 import DownloadSection from '@components/DownloadSection';
 import TrustedPartnerSection from '@components/TrustedPartnerSection';
+import { useRouter } from 'next/navigation';
 
 export default function Home() {
   const [motorcycles, setMotorcycles] = useState<Motorcycle[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const router = useRouter();
   const [filters, setFilters] = useState({
     manufacturer: '',
     year: 0,
@@ -49,6 +51,11 @@ export default function Home() {
       [filterName]: value,
     }));
   };
+
+  const handleViewAllMotorcycles = () => {
+    router.push(`/motorcycles`);
+  };
+
   const content1 = {
     title: 'Title 1',
     description: 'Description 1',
@@ -104,6 +111,13 @@ export default function Home() {
                 <MotorcycleCard key={motorcycle.id} motorcycle={motorcycle} />
               ))}
             </div>
+            <CustomButton
+                    title="View other Motorcycles"
+                    containerStyles="w-1/8 mt-12 my-6 mx-auto py-[16px] rounded-full bg-red-600"
+                    textStyles="text-white text-[14px] leading-[17px] font-bold"
+                    // rightIcon="/right-arrow.svg"
+                    handleClick={handleViewAllMotorcycles}
+                  />
           </section>
         )}
       </div>

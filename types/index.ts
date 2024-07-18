@@ -141,3 +141,43 @@ export interface Province {
   region_id: string;
   province_id: string;
 }
+export interface City {
+  id: number;
+  code: string; // Add this property if needed
+  name: string;
+  region_id?: string; // Make region_id optional (if not always present)
+  province_id?: string; // Make province_id optional (if not always present)
+  city_id?: string; // Make city_id optional (if not always present)
+}
+export interface Barangay {
+  id: number;
+  code: string; // Add this property if needed
+  name: string;
+  region_id?: string; // Make region_id optional (if not always present)
+  province_id?: string; // Make province_id optional (if not always present)
+  city_id?: string; // Make city_id optional (if not always present)
+}
+
+export interface Category {
+  id: number;
+  name: string;
+  image: string;
+  // Add more properties as needed
+}
+
+export interface CategoriesResponse {
+  categories: Category[];
+  // Add more properties if needed
+}
+
+export interface Brand {
+  id: number;
+  name: string;
+  image: string;
+  // Add more properties as needed
+}
+
+export interface BrandsResponse {
+  brands: Brand[];
+  // Add more properties if needed
+}

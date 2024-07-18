@@ -28,13 +28,15 @@ const Navbar = () => {
   };
 
   return (
-    <nav className={` w-full z-30 top-0 ${navbarSolid ? 'bg-blue-950 bg-opacity-99' : 'bg-blue-900 '} transition duration-300`}>
+    <nav className={` w-full z-30 top-0 transition duration-300`}>
       <>
         {/* Top Navbar with Search */}
         <div className="w-full container mx-auto flex flex-wrap items-center justify-between py-2 border-x-amber-50 ">
           <div className="pl-4 flex items-center">
-            <a onClick={()=>redirectPage('/')} className="text-white no-underline hover:no-underline font-bold text-2xl lg:text-3xl flex items-center" href="#">
-              <img className="w-16 h-16 mr-6" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDkgAY4mKZt6epgecA2464tA34o5Acxztddw&s" alt="Logo" />
+            <a onClick={()=>redirectPage('/')} className="text-white  no-underline hover:no-underline font-bold text-2xl lg:text-3xl flex items-center" href="#">
+              <div className='rounded-full overflow-hidden   '>
+                <img className="w-64 mr-6 " src="/images/superbikes_logo.png" alt="Logo" />
+              </div>
               Superbikes
             </a>
           </div>
@@ -53,7 +55,7 @@ const Navbar = () => {
         </div>
 
         {/* Second Navbar with Navigation Links */}
-        <div className="w-full container mx-auto flex flex-wrap items-center justify-center py-2 ">
+        <div className="w-full bg-blue-900 rounded-t-xl container mx-auto flex flex-wrap items-center justify-center py-2 ">
           <div className="w-full flex-grow lg:flex lg:items-center lg:w-auto hidden lg:block mt-2 lg:mt-0 bg-transparent text-black p-4 lg:p-0 z-20" id="nav-content">
             <ul className="list-reset lg:flex justify-center flex-1 items-center">
              

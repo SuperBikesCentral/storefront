@@ -29,7 +29,7 @@ const Hero = () => {
 
   return (
     <div className="max-w-screen-2xl mx-auto py-12 px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-3 gap-8 ">
-      <div className="lg:col-span-2">
+      <div className="lg:col-span-3">
         <Carousel
           showThumbs={false}
           showStatus={false}
@@ -43,7 +43,7 @@ const Hero = () => {
           <HeroSlide/>
         </Carousel>
       </div>
-      <div className="lg:col-span-1 flex flex-col justify-center bg-blue-900 p-8 rounded-3xl text-white">
+      {/* <div className="lg:col-span-1 flex flex-col justify-center bg-blue-900 p-8 rounded-3xl text-white">
         <h2 className="text-2xl font-bold mb-4">Filter Products</h2>
         <div className="space-y-4">
           <div>
@@ -107,7 +107,7 @@ const Hero = () => {
             handleClick={handleFilterSubmit} // Assuming you want to submit filters on button click
           />
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

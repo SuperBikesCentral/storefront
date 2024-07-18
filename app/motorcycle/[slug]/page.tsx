@@ -2,7 +2,7 @@
 import { Breadcrumb, CustomButton, Modal } from '@components'; // Adjust path as per your project structure
 import { useParams } from 'next/navigation';
 import { useEffect, useState, ChangeEvent, FormEvent, MouseEventHandler} from 'react';
-import { Motorcycle, Province } from "@types";
+import { Motorcycle, Province, City, Barangay } from "@types";
 
 const ProductPage = () => {
   const { slug } = useParams();
@@ -11,7 +11,8 @@ const ProductPage = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [showModal, setShowModal] = useState(false); // State for showing/hiding modal
   const [provinces, setProvinces] = useState<Province[]>([]); // State for province data
-
+  const [cities, setCities] = useState<City[]>([]); // State for city data (initially empty)
+  const [barangays, setBarangays] = useState<Barangay[]>([]); // State for city data (initially empty)
   // Form state
   const [formData, setFormData] = useState({
     product_id:  0,
@@ -35,6 +36,29 @@ const ProductPage = () => {
     href: item.href,
   }));
 
+  const fetchCities = async (selectedProvince: string) => {
+    if (!selectedProvince) return; // Handle no province selected
+
+    try {
+      const response = await fetch(`https://superbikescentral.online/api/cities/${selectedProvince}`);
+      const citiesData = await response.json();
+      setCities(citiesData); // Update city state with fetched data
+    } catch (error) {
+      console.error('Error fetching cities:', error);
+    }
+  };
+
+  const fetchBarangays = async (selectedBarangay: string) => {
+    if (!selectedBarangay) return; // Handle no province selected
+
+    try {
+      const response = await fetch(`https://superbikescentral.online/api/barangays/${selectedBarangay}`);
+      const barangaysData = await response.json();
+      setBarangays(barangaysData); // Update city state with fetched data
+    } catch (error) {
+      console.error('Error fetching cities:', error);
+    }
+  };
   useEffect(() => {
     const fetchData = async () => {
       if (!slug) return;
@@ -90,13 +114,23 @@ const ProductPage = () => {
   //   setFormData((prevFormData) => ({ ...prevFormData, province: value }));
   // };
 
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
+  
+    // Update form data as usual
     setFormData(prevFormData => ({
       ...prevFormData,
-      [name]: value
+      [name]: value,
     }));
+  
+    // Conditional call to fetchCities only for the "province" field
+    if (name === 'province') {
+      fetchCities(value); // Call fetchCities only when province changes
+    }
+
+    if (name === 'city') {
+      fetchBarangays(value); // Call fetchCities only when province changes
+    }
   };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -107,9 +141,9 @@ const ProductPage = () => {
       product_id: formData.product_id,
       name: formData.name,
       email: formData.email,
-      contact_number: formData.contact_number,
-      province: formData.province,
-      city: formData.city,
+      contact_number: formData.contact_number || '2222222',
+      province_id: formData.province,
+      city_id: formData.city,
       barangay: formData.barangay,
       message: formData.message,
   }
@@ -283,30 +317,57 @@ const ProductPage = () => {
           >
             <option value="">Select a province</option>
             {provinces.map((province) => (
-              <option key={province.id} value={province.name}>
+              <option key={province.id} value={province.province_id}>
                 {province.name}
               </option>
             ))}
           </select>
 
-          <input
-            type="text"
+          <select
             name="city"
             value={formData.city}
             onChange={handleChange}
-            placeholder="City"
             className="border border-gray-300 rounded-md px-3 py-2 mb-3 w-full"
             required
-          />
-          <input
-            type="text"
+          >
+            <option value="">Select a City</option>
+            {/* Conditionally render city options based on selected province */}
+            {formData.province &&
+              cities.map((city) => (
+                <option key={city.id} value={city.city_id}>
+                  {city.name}
+                </option>
+              ))}
+          </select>
+
+          <select
             name="barangay"
             value={formData.barangay}
             onChange={handleChange}
-            placeholder="Barangay"
+            className="border border-gray-300 rounded-md px-3 py-2 mb-3 w-full"
+            required
+          >
+            <option value="">Select a City</option>
+            {/* Conditionally render city options based on selected province */}
+            {formData.province &&
+              formData.city &&
+              barangays.map((barangay) => (
+                <option key={barangay.id} value={barangay.id}>
+                  {barangay.name}
+                </option>
+              ))}
+          </select>
+
+          <input
+            type="text"
+            name="contact_number"
+            value={formData.contact_number}
+            onChange={handleChange}
+            placeholder="Conntact Number"
             className="border border-gray-300 rounded-md px-3 py-2 mb-3 w-full"
             required
           />
+
           <textarea
             name="message"
             value={formData.message}
